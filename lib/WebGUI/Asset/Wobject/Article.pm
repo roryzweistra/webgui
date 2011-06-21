@@ -99,7 +99,7 @@ sub definition {
 				},
 			templateId =>{
 				fieldType=>"template",
-				defaultValue=>'PBtmpl0000000000000002',	
+				defaultValue=>'PBtmpl0000000000000002',
 				tab=>"display",
 				namespace=>"Article",
                 		hoverHelp=>$i18n->get('article template description'),
@@ -372,8 +372,9 @@ sub view {
 				isImage => $storage->isImage($file),
 				url=> $storage->getUrl($file),
 				thumbnailUrl => $storage->getThumbnailUrl($file),
-				iconUrl => $storage->getFileIconUrl($file)
-				});
+				iconUrl => $storage->getFileIconUrl($file),
+                fileExtension => $storage->getFileExtension($file),
+			});
 		}
 	}
     $var{description} = $self->get("description");
@@ -468,4 +469,3 @@ sub www_view {
 
 
 1;
-

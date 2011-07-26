@@ -208,7 +208,7 @@ sub getTemplateVars {
 	$vars->{ 'addFile.url'      } = $self->getUrl('func=add;class=WebGUI::Asset::FilePile');
     $vars->{ canEdit            } = $self->canEdit;
     $vars->{ canAddFile         } = $self->canEdit;
-    
+
     return $vars;
 }
 
@@ -261,7 +261,7 @@ render the template.  Also handles caching.
 
 sub view {
 	my $self    = shift;
-	
+
     # Use cached version for visitors
 	if ($self->session->user->isVisitor) {
 		my $out = WebGUI::Cache->new($self->session,"view_".$self->getId)->get;
@@ -270,7 +270,7 @@ sub view {
 
 	my $vars    = $self->getTemplateVars;
     # TODO: Getting the children template vars should be a seperate method.
-	
+
     my %rules   = ( );
     if ( $self->get( "sortAlphabetically" ) ) {
         $rules{ orderByClause   } = "assetData.title " . $self->get( "sortOrder" );
@@ -300,7 +300,7 @@ sub view {
 				"icon.small" => $child->getIcon(1),
 				"icon.big"   => $child->getIcon,
 			};
-		} 
+		}
         else {
             my $childVars   = {
 				id              => $child->getId,
@@ -317,21 +317,23 @@ sub view {
 				canEdit         => $child->canEdit,
 				controls        => $child->getToolbar,
             };
-            
+
             if ( $child->isa('WebGUI::Asset::File::Image') ) {
                 $childVars->{ "isImage"         } = 1;
                 $childVars->{ "thumbnail.url"   } = $child->getThumbnailUrl;
+                $childVars->{ 'imageExtension'  } = $child->getExtension;
             }
-            
+
             if ( $child->isa('WebGUI::Asset::File') ) {
                 $childVars->{ "isFile"          } = 1;
                 $childVars->{ "file.url"        } = $child->getFileUrl;
+                $childVars->{ 'fileExtension'   } = $child->getExtension;
             }
 
 			push @{ $vars->{ "file_loop" } }, $childVars;
 		}
 	}
-	
+
     my $out = $self->processTemplate( $vars, undef, $self->{_viewTemplate} );
 
     # Update the cache
@@ -360,4 +362,3 @@ sub www_view {
 
 
 1;
-

@@ -96,7 +96,7 @@ sub setPrivileges {
 
 =head2 commit ( )
 
-Override commit to remove all privileges for previous revisions' storage
+Override commit to remove all privileges for previous revisions' storage 
 locations
 
 =cut
@@ -163,7 +163,7 @@ sub definition {
 
 #-------------------------------------------------------------------
 
-=head2 duplicate
+=head2 duplicate 
 
 Extend the master method to duplicate the storage location.
 
@@ -195,7 +195,7 @@ sub exportAssetData {
 
 #-------------------------------------------------------------------
 
-=head2 exportWriteFile
+=head2 exportWriteFile 
 
 Places a copy of the file from storage into the right location during an export.
 
@@ -244,9 +244,9 @@ sub getEditForm {
     my $tabform     = $self->SUPER::getEditForm();
     my $i18n        = WebGUI::International->new($self->session, 'Asset_File');
 
-    $tabform->getTab("properties")->raw(
+    $tabform->getTab("properties")->raw( 
         '<tr><td>'.$i18n->get('new file').'<td colspan="2">'
-        . $self->getEditFormUploadControl
+        . $self->getEditFormUploadControl 
         . '</td></tr>'
     );
 
@@ -286,20 +286,7 @@ sub getEditFormUploadControl {
 
 #-------------------------------------------------------------------
 
-=head2 getExtension
-
-Returns the extension of the file stored in the storage location.
-
-=cut
-
-sub getExtension {
-	my $self = shift;
-	return $self->getStorageLocation->getFileExtension( $self->get( 'filename' ) );
-}
-
-#-------------------------------------------------------------------
-
-=head2 getFileUrl
+=head2 getFileUrl 
 
 Returns the URL for the file stored in the storage location.
 
@@ -313,7 +300,7 @@ sub getFileUrl {
 
 #-------------------------------------------------------------------
 
-=head2 getFileIconUrl
+=head2 getFileIconUrl 
 
 Returns the icon for the file stored in the storage location.  If there's no
 file, then it returns undef.
@@ -347,7 +334,7 @@ sub getIcon {
 	if ($small && $self->get("dummy")) {
 		return $self->session->url->extras('assets/small/file.gif');
 	} elsif ($small) {
-		return $self->getFileIconUrl;
+		return $self->getFileIconUrl;	
 	}
 	return $self->session->url->extras('assets/file.gif');
 }
@@ -384,7 +371,7 @@ sub getStorageFromPost {
 
 #-------------------------------------------------------------------
 
-=head2 getStorageLocation
+=head2 getStorageLocation 
 
 Returns the storage location for this asset.  If one does not exist, then it
 is created.
@@ -404,7 +391,7 @@ sub getStorageLocation {
 
 =head2 indexContent ( )
 
-Indexing the content of the attachment. See WebGUI::Asset::indexContent() for additonal details.
+Indexing the content of the attachment. See WebGUI::Asset::indexContent() for additonal details. 
 
 =cut
 
@@ -435,7 +422,7 @@ sub prepareView {
 
 #-------------------------------------------------------------------
 
-=head2 processPropertiesFromFormPost
+=head2 processPropertiesFromFormPost 
 
 Extend the master method to handle file uploads and applying constraints.
 
@@ -464,7 +451,7 @@ sub processPropertiesFromFormPost {
 
 #-------------------------------------------------------------------
 
-=head2 purge
+=head2 purge 
 
 Extends the master method to delete all storage locations associated with this asset.
 
@@ -496,7 +483,7 @@ sub purgeCache {
 
 #-------------------------------------------------------------------
 
-=head2 purgeRevision
+=head2 purgeRevision 
 
 Extends the master method to delete the storage location for this asset.
 
@@ -543,11 +530,11 @@ sub setFile {
 	    my $storage     = $self->getStorageLocation;
 		# Clear the old file if any
 		$storage->clear;
-
-		$storage->addFileFromFilesystem($filename)
+	
+		$storage->addFileFromFilesystem($filename) 
 			|| croak "Couldn't setFile: " . join(", ",@{ $storage->getErrors });
 			# NOTE: We should not croak here, the WebGUI::Storage should croak for us.
-
+			
 	}
 
     $self->updatePropertiesFromStorage;
@@ -568,7 +555,7 @@ sub setSize {
     my $self        = shift;
     my $fileSize    = shift || 0;
     my $storage     = $self->getStorageLocation;
-    if (defined $storage) {
+    if (defined $storage) {	
         foreach my $file (@{$storage->getFiles}) {
             $fileSize += $storage->getFileSize($file);
         }
@@ -661,7 +648,7 @@ in the asset properties.
 
 sub updatePropertiesFromStorage {
     my $self        = shift;
-    my $storage     = $self->getStorageLocation;
+    my $storage     = $self->getStorageLocation; 
     my $filename    = $storage->getFiles->[0];
     $self->session->errorHandler->info("Updating file asset filename to $filename");
     $self->update({
@@ -672,7 +659,7 @@ sub updatePropertiesFromStorage {
 
 #-------------------------------------------------------------------
 
-=head2 view
+=head2 view 
 
 Generate the view method for the Asset, and handle caching.
 
@@ -700,7 +687,7 @@ sub view {
 
 #-------------------------------------------------------------------
 
-=head2 www_edit
+=head2 www_edit 
 
 Display the edit form to the user.  Manually handles the template for displaying
 the inline view of the asset.
@@ -723,7 +710,7 @@ sub www_edit {
 
 #-------------------------------------------------------------------
 
-=head2 www_view
+=head2 www_view 
 
 When viewed directly, stream the stored file to the user.
 
